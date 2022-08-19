@@ -32,6 +32,8 @@ public class MySyncService {
     private String outboundJdbcUrl;
     @Value("${genesysApi.siebelSrcUrl}")
     private String siebelSrcUrl;
+    @Value("${genesysApi.my.camp.service}")
+    private String myCampService;
 
     private final static String distinctCampConSql =
             "select distinct CRM_CAMP_CON_ID from GENESYSSQL.iX_GEN_TABLE_NAME";
@@ -95,7 +97,7 @@ public class MySyncService {
     private void construct() { genesysConnect(); }
 
     private BaseApiResponse checkCampaignStatus (String guid, String campaigId, String groupId) {
-        List<ServiceInstance> list = discoveryClient.getInstances("MYCAMPTEST");
+        List<ServiceInstance> list = discoveryClient.getInstances(myCampService.toUpperCase());
         if (list == null || list.size() == 0 ) {
             return BaseApiResponse.failure(-2,"MyCamp service is not available");
         }
